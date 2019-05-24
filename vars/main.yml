@@ -1,0 +1,13 @@
+---
+dotfiles_user_home: "{{ '~' | expanduser }}"
+running_user_id: "{{ ansible_user_id }}"
+running_user_dir: "{{ dotfiles_user_home }}"
+ansible_pkgs_dir: "{{ dotfiles_user_home }}/.tmp/pkgs"
+editor_rpmdev_enable: True
+ansible_sudo_pass: "Vini123$"
+git_packages:
+  - git
+  - git-svn
+  - git-flow  
+gcloud_sdk_additional_package_names:
+  - kubectl

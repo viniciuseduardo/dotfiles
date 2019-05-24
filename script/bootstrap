@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+
+PYTHON_BIN_PATH="$(python -m site --user-base)/bin"
+
+cd "$(dirname "$0")/.."
+
+sudo apt install rpm
+
+if [[ ! $(rpm -aq | grep ansible) ]] ||  \
+   [[ ! $(rpm -aq | grep python-dev) ]] || \
+   [[ ! $(rpm -aq | grep python-pip) ]]  || \
+   [[ ! $(rpm -aq | grep python3-dev) ]] || \
+   [[ ! $(rpm -aq | grep python3-pip) ]]; then
+  echo -n "installing necessary packages to initialize the bootstrap"
+  sudo apt install \
+    ansible \
+    python-dev \
+    python-pip \
+    python-apt \
+    python3-dev \
+    python3-pip \
+    python3-apt \
+    -y
+  pip install pipenv --user
+fi
+
+if [ ! -f "Pipfile.lock" ]; then
+  $PYTHON_BIN_PATH/pipenv install --dev
+fi
